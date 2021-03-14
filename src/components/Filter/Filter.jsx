@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import s from './Filter.module.css';
-import { connect } from 'react-redux';
-import actions from '../../redux/contacts/contacts-actions';
+
 
 class Filter extends Component {
     componentWillUnmount() {
@@ -31,13 +30,4 @@ Filter.propTypes = {
     resetFiletr: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-    filter: state.contacts.filter,
-});
-
-const mapDispatchToProps = dispatch => ({
-    onChange: e => dispatch(actions.changeFilter(e.currentTarget.value)),
-    resetFilter: () => dispatch(actions.resetFilter()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
 import shortid from 'shortid';
 import { toast } from 'react-toastify';
-import { connect } from 'react-redux';
-import actions from '../../redux/contacts/contacts-actions';
+
 
 class ContactForm extends Component {
   state = {
@@ -21,7 +20,11 @@ class ContactForm extends Component {
     ? this.setState({ [name]: value.replace(/[^\d-]/g, '') })
     : this.setState({ [name]: value });
   };
-    
+
+  reset = () => {
+    this.setState({ name: '', number: '' })
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const newContact = { id: shortid.generate(), ...this.state };
@@ -33,10 +36,6 @@ class ContactForm extends Component {
     }
   };
     
-  reset = () => {
-    this.setState({ name: '', number: '' })
-  };
-  
   isAlreadyInContacts = newContact => {
     const name = newContact.name.toLowerCase();
     const { number } = newContact;
@@ -90,13 +89,4 @@ ContactForm.propTypes = {
   items: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => ({
-  items: state.contacts.items,
-});
-
-const mapDispatchToProps = dispatch => ({
-  resetFilter: () => dispatch(actions.resetFilter()),
-  addContact: newContact => dispatch(actions.addContact(newContact)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default ContactForm;

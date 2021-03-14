@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import ContactForm from './components/ContactForm';
 import Filter from './components/Filter';
 import ContactList from './components/ContactList';
-//import Alert from './components/Alert';
 import { connect } from 'react-redux';
 import { contactsOperations, contactsSelectors } from './redux/contacts/';
 import { CSSTransition } from 'react-transition-group';
 import './App.css';
 import titleTransition from './transitions/title.module.css';
 import popTransition from './transitions/pop.module.css';
-//import alertTransition from './transitions/alert.module.css';
 
 class App extends Component {
   componentDidMount() {
