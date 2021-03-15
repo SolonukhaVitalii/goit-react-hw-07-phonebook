@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
-import shortid from 'shortid';
 import { toast } from 'react-toastify';
 
 
@@ -17,26 +16,11 @@ class ContactForm extends Component {
   handleChange = e => {
     const { name, value } = e.currentTarget;
     name === 'number'
-    ? this.setState({ [name]: value.replace(/[^\d-]/g, '') })
-    : this.setState({ [name]: value });
+      ? this.setState({ [name]: value.replace(/[^\d-]/g, '') })
+      : this.setState({ [name]: value });
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' })
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const newContact = { id: shortid.generate(), ...this.state };
-    if (!this.isAlreadyInContacts(newContact)) {
-      const { addContact } = this.props;
-      addContact(newContact);
-      this.notifySuccess('Added successfully');
-      this.reset();
-    }
-  };
-    
-  isAlreadyInContacts = newContact => {
+  isValidContact = newContact => {
     const name = newContact.name.toLowerCase();
     const { number } = newContact;
     const { items } = this.props;
@@ -49,6 +33,26 @@ class ContactForm extends Component {
     if (items.find(contact => contact.name.toLowerCase() === name)) {
       this.notifyWarn(`${newContact.name} is already in contacts.`);
       return true;
+    }
+  };
+
+  reset = () => {
+    this.setState({
+      name: '',
+      number: '',
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    const newContact = { ...this.state };
+    if (!this.isValidContact(newContact)) {
+      const { addContact } = this.props;
+
+      addContact(newContact);
+      this.notifySuccess('Added successfully');
+      this.reset();
     }
   };
     
